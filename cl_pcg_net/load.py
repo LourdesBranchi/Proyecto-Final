@@ -56,7 +56,7 @@ def load_images(data_dir):
         # Ignorar archivos ocultos (por ejemplo, .DS_Store en macOS)
         if label.startswith('.'):
             continue
-        if label == 'ecg_data.json'
+        if label == 'ecg_data.json':
             continue
         label_dir = os.path.join(data_dir, label)
         label_value = int(label)  # Convertir el nombre de la clase a un valor numérico
