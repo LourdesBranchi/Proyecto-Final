@@ -8,8 +8,8 @@ from sklearn.model_selection import train_test_split
 from scipy.io import savemat
 
 # Cargar las imágenes y etiquetas
-data_folder = "C:/Users/lourd/Documents/Proyecto Final/pfc.venv/espectrogramas"
-with open('C:/Users/lourd/Documents/Proyecto Final/pfc.venv/latidos.json', 'r') as f:
+data_folder = "/home/malperalta/Proyecto-Final/espectrogramas"
+with open('/home/malperalta/Proyecto-Final/latidos.json', 'r') as f:
     latidos = json.load(f)
 
 images = []
@@ -84,9 +84,9 @@ print("Anormales:", cont_test[1])
 print("")
 
 # Define los directorios para cada conjunto de datos
-train_dir = "C:/Users/lourd/Documents/Proyecto Final/pfc.venv/Scripts/cl_ecg_net/imagenes/train"
-test_dir = "C:/Users/lourd/Documents/Proyecto Final/pfc.venv/Scripts/cl_ecg_net/imagenes/test"
-val_dir = "C:/Users/lourd/Documents/Proyecto Final/pfc.venv/Scripts/cl_ecg_net/imagenes/val"
+train_dir = "/home/malperalta/Proyecto-Final/train"
+test_dir = "/home/malperalta/Proyecto-Final/test"
+val_dir = "/home/malperalta/Proyecto-Final/val"
 
 
 def guardar_imagenes_en_directorio(imagenes, etiquetas, latidos, directorio):
