@@ -58,13 +58,15 @@ def load_images(data_dir):
             continue
         if label == 'ecg_data.json':
             continue
+    
         label_dir = os.path.join(data_dir, label)
         label_value = int(label)  # Convertir el nombre de la clase a un valor numérico
         for image_file in os.listdir(label_dir):
-            image_path = os.path.join(label_dir, image_file)
-            image = cv2.imread(image_path)
-            images.append(image)
-            labels.append(label_value)
+            if image_file.endswith('.jpg'):
+                image_path = os.path.join(label_dir, image_file)
+                image = cv2.imread(image_path)
+                images.append(image)
+                labels.append(label_value)
 
     return images, labels
 
