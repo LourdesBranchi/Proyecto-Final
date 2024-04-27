@@ -64,12 +64,15 @@ def load_dataset(data_json):
     with open(os.path.join(data_json, 'ecg_data.json'), 'r') as fid:
         data = [json.loads(l) for l in fid]
     for d in tqdm.tqdm(data):
+        archivo = d['ecg'].split('Proyecto')[-1]
+        ecg_path = '/home/lougonzalez/Proyecto-Final'
         labels.append(d['label'])
-        ecgs.append(load_ecg(d['ecg']))
+        ecgs.append(load_ecg(ecg_path))
     return ecgs, labels
 
 
 def load_ecg(record):
+    print(record)
     ecg = sio.loadmat(record)['ecg'].squeeze()
     ecg = signal.resample(ecg, 2048)
     return ecg
