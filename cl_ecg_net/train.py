@@ -9,6 +9,13 @@ from keras.models import Model
 import scipy.io as scio
 from sklearn.metrics import confusion_matrix,accuracy_score, recall_score,f1_score
 
+import tensorflow as tf
+physical_devices = tf.config.list_physical_devices('GPU')
+if physical_devices:
+    tf.config.set_visible_devices(physical_devices[0], 'GPU')
+
+
+
 MAX_EPOCHS = 150
 batch_size = 32
 if __name__ == '__main__':
