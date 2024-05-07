@@ -66,6 +66,7 @@ def load_dataset(data_json):
     for d in tqdm.tqdm(data):
         archivo = d['ecg'].split('Proyecto')[-1]
         ecg_path = '/home/lougonzalez/Proyecto-Final'+archivo
+        print(f'Cargando el archivo ecg_path')
         labels.append(d['label'])
         ecgs.append(load_ecg(ecg_path))
     return ecgs, labels
