@@ -36,7 +36,9 @@ class Preproc:
 
     def process_x(self, x):
         x = (x - self.mean) / self.std
-        x = x[:, :, None]
+        padded_x = np.zeros((2048, 1))
+        padded_x[:min(len(x), 2048), 0] = x[:min(len(x), 2048)]
+        x = padded_x[:, :, None]
         return np.array(x)
 
     def process_y(self, y):
