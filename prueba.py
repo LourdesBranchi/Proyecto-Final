@@ -1,3 +1,9 @@
+from scipy import signal
+import scipy.io as sio
+import os 
+import json
+import tqdm
+
 def load_ecg(record):
     print(record)
     ecg = sio.loadmat(record)['ecg'].squeeze()
