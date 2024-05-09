@@ -10,6 +10,7 @@ import scipy.io as scio
 from sklearn.metrics import confusion_matrix,accuracy_score, recall_score,f1_score
 from keras.callbacks import TensorBoard
 import tensorflow as tf
+from keras.callbacks import ModelCheckpoint
 
 physical_devices = tf.config.list_physical_devices('GPU')
 if physical_devices:
@@ -44,17 +45,25 @@ if __name__ == '__main__':
     # Creamos la red neuronal
     model = network.build_network(**params)
 
+    # Definir una devolución de llamada para guardar los mejores pesos del modelo
+    checkpointer = ModelCheckpoint(filepath=save_dir + 'best_weights.hdf5', 
+                                   monitor='val_loss', 
+                                   verbose=1, 
+                                   save_best_only=True,
+                                   mode='min')  # Guarda el modelo cuando la pérdida de validación es mínima
+
     #learning rate reduce strategy
     def scheduler(epoch):
         if epoch % 100 == 0 and epoch != 0:
-            lr = K.get_value(model.optimizer.lr)
-            model.load_weights(save_dir + 'best.hdf5')
+            lr = K.eval(model.optimizer.lr)
+            model.save_weights(save_dir + 'temp.hdf5')
             K.set_value(model.optimizer.lr, lr * 0.1)
-            print("epoch {}: lr changed to {}".format(epoch, lr * 0.1))
+            print("epoch {}: lr changed to {}".format(epoch, lr))
         return model.optimizer.learning_rate.numpy()
 
     reduce_lr = LearningRateScheduler(scheduler)
 
+    
     #choose best model to save
     checkpointer = keras.callbacks.ModelCheckpoint(
         mode='max',
@@ -65,12 +74,12 @@ if __name__ == '__main__':
     #variable to save the loss_acc_iter value
     history = LossHistory()
 
+    # Configura TensorBoard
+    tensorboard_callback = TensorBoard(log_dir='logs', histogram_freq=1)
+
     # Data generator
     train_gen = load.data_generator(batch_size, preproc, *train)
     dev_gen = load.data_generator(batch_size, preproc, *dev)
-
-    # Configura TensorBoard
-    tensorboard_callback = TensorBoard(log_dir='logs', histogram_freq=1)
     
     #fit the model
     print('cl_ecg_net starts training...')
