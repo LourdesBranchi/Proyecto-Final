@@ -18,16 +18,20 @@ if physical_devices:
 
 MAX_EPOCHS = 150
 batch_size = 32
+
 if __name__ == '__main__':
     params = util.config()
     save_dir = params['save_dir']
 
     print("Loading training set...")
-    train = load.load_dataset(params['train'])
+    train = load.load_dataset(params['train']) # Carga el training set
+    
     print("Loading dev set...")
-    dev = load.load_dataset(params['dev'])
+    dev = load.load_dataset(params['dev']) # Carga el validation set
+    
     print("Building preprocessor...")
-    preproc = load.Preproc(*train)
+    preproc = load.Preproc(*train) # Inicializamos el preprocesador 
+    
     print("Training size: " + str(len(train[0])) + " examples.")
     print("Dev size: " + str(len(dev[0])) + " examples.")
 
@@ -36,7 +40,7 @@ if __name__ == '__main__':
         "num_categories": len(preproc.classes)
     })
 
-    #create the cl-ecg-net
+    # Creamos la red neuronal
     model = network.build_network(**params)
 
     #learning rate reduce strategy
@@ -60,7 +64,7 @@ if __name__ == '__main__':
     #variable to save the loss_acc_iter value
     history = LossHistory()
 
-    #data generator
+    # Data generator
     train_gen = load.data_generator(batch_size, preproc, *train)
     dev_gen = load.data_generator(len(dev[0]), preproc, *dev)
 
@@ -71,14 +75,14 @@ if __name__ == '__main__':
         steps_per_epoch=int(len(train[0]) / batch_size),
         epochs=MAX_EPOCHS,
         validation_data=dev_gen,
-        validation_steps=1,
-        verbose=False,
+        validation_steps=int(len(dev_data[0]) / batch_size),
+        verbose=True,
         callbacks=[checkpointer, reduce_lr, history])
 
     #save loss_acc_iter
     history.save_result(params['save_dir'] + 'loss_acc_iter.mat')
 
-    #extract and save deep coding features
+    #Extract and save deep coding features
     x_train, y_train = load.data_generator2(preproc, *train)
     x, y_t = load.data_generator2(preproc, *dev)
     model.load_weights(save_dir + 'best.hdf5')
@@ -91,6 +95,7 @@ if __name__ == '__main__':
 
     #evaluate model
     y_p = model.predict(x)
+    y_pred_classes = no.argmax(y_pred, axis=1)
     print(confusion_matrix(y_t.argmax(1), y_p.argmax(1)))
     print('sensitivity:', recall_score(y_t.argmax(1), y_p.argmax(1)))
     print('specificity:', specificity(y_t.argmax(1), y_p.argmax(1)))
