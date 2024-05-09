@@ -35,11 +35,14 @@ class Preproc:
         return self.process_x(x), self.process_y(y)
 
     def process_x(self, x):
-        x = (x - self.mean) / self.std
-        padded_x = np.zeros((2048, 1))
-        padded_x[:min(len(x), 2048), 0] = x[:min(len(x), 2048)]
-        x = padded_x[:, :, None]
-        return np.array(x)
+        processed_x = []
+        for ecg in x:
+            ecg = (ecg - self.mean) / self.std
+            padded_ecg = np.zeros((2048, 1))
+            padded_ecg[:min(len(ecg), 2048), 0] = ecg[:min(len(ecg), 2048)]
+            padded_ecg = padded_ecg[:, :, None]
+            processed_x.append(padded_ecg)
+        return np.array(processed_x)
 
     def process_y(self, y):
         y = pad([[self.class_to_int[c] for c in s] for s in y], val=1, dtype=np.int32)
