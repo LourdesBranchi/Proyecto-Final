@@ -46,7 +46,7 @@ if __name__ == '__main__':
     model = network.build_network(**params)
 
     # Definir una devolución de llamada para guardar los mejores pesos del modelo
-    checkpointer = ModelCheckpoint(filepath=save_dir + 'best_weights.hdf5', 
+    checkpointer = ModelCheckpoint(filepath=save_dir + 'best_weights.keras', 
                                    monitor='val_loss', 
                                    verbose=1, 
                                    save_best_only=True,
