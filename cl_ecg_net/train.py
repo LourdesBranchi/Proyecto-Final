@@ -11,7 +11,8 @@ from sklearn.metrics import confusion_matrix,accuracy_score, recall_score,f1_sco
 from keras.callbacks import TensorBoard
 import tensorflow as tf
 from keras.callbacks import ModelCheckpoint
-
+import matplotlib.pyplot as plt
+    
 physical_devices = tf.config.list_physical_devices('GPU')
 if physical_devices:
     tf.config.set_visible_devices(physical_devices[0], 'GPU')
@@ -95,7 +96,24 @@ if __name__ == '__main__':
     #save loss_acc_iter
     history.save_result(params['save_dir'] + 'loss_acc_iter.mat')
     print('Listo')
+    # Graficar las pérdidas de entrenamiento y validación
     
+    # Obtener las pérdidas del historial
+    training_loss = history.history['loss']
+    validation_loss = history.history['val_loss']
+    
+    # Crear el gráfico
+    plt.plot(training_loss, label='Training Loss')
+    plt.plot(validation_loss, label='Validation Loss')
+    
+    # Agregar etiquetas y leyenda
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Training and Validation Loss')
+    plt.legend()
+    
+    # Mostrar el gráfico
+    plt.show()
     #Extract and save deep coding features
     x_train, y_train = load.data_generator2(preproc, *train)
     x, y_t = load.data_generator2(preproc, *dev)
