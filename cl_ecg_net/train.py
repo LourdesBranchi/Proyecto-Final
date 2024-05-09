@@ -8,8 +8,9 @@ from keras.callbacks import LearningRateScheduler
 from keras.models import Model
 import scipy.io as scio
 from sklearn.metrics import confusion_matrix,accuracy_score, recall_score,f1_score
-
+from keras.callbacks import TensorBoard
 import tensorflow as tf
+
 physical_devices = tf.config.list_physical_devices('GPU')
 if physical_devices:
     tf.config.set_visible_devices(physical_devices[0], 'GPU')
@@ -66,8 +67,11 @@ if __name__ == '__main__':
 
     # Data generator
     train_gen = load.data_generator(batch_size, preproc, *train)
-    dev_gen = load.data_generator(len(dev[0]), preproc, *dev)
+    dev_gen = load.data_generator(batch_size, preproc, *dev)
 
+    # Configura TensorBoard
+    tensorboard_callback = TensorBoard(log_dir='logs', histogram_freq=1)
+    
     #fit the model
     print('cl_ecg_net starts training...')
     model.fit(
@@ -75,13 +79,14 @@ if __name__ == '__main__':
         steps_per_epoch=int(len(train[0]) / batch_size),
         epochs=MAX_EPOCHS,
         validation_data=dev_gen,
-        validation_steps=int(len(dev_data[0]) / batch_size),
+        validation_steps=int(len(dev[0]) / batch_size),
         verbose=True,
-        callbacks=[checkpointer, reduce_lr, history])
+        callbacks=[checkpointer, reduce_lr, history, tensorboard_callback])
 
     #save loss_acc_iter
     history.save_result(params['save_dir'] + 'loss_acc_iter.mat')
-
+    print('Listo')
+    
     #Extract and save deep coding features
     x_train, y_train = load.data_generator2(preproc, *train)
     x, y_t = load.data_generator2(preproc, *dev)
