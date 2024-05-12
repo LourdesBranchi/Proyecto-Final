@@ -56,7 +56,7 @@ if __name__ == '__main__':
     #learning rate reduce strategy
     def scheduler(epoch):
         if epoch % 100 == 0 and epoch != 0:
-            lr = K.eval(model.optimizer.lr)
+            lr = model.optimizer.lr 
             model.save_weights(save_dir + 'temp.hdf5')
             K.set_value(model.optimizer.lr, lr * 0.1)
             print("epoch {}: lr changed to {}".format(epoch, lr))
