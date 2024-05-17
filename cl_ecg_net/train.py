@@ -54,13 +54,12 @@ if __name__ == '__main__':
                                    mode='min')  # Guarda el modelo cuando la pérdida de validación es mínima
 
     #learning rate reduce strategy
-    def scheduler(epoch):
-        if epoch % 100 == 0 and epoch != 0:
-            lr = model.optimizer.get_config()['learning_rate']
-            model.save_weights(save_dir + 'temp.hdf5')
-            K.set_value(model.optimizer.lr, lr * 0.1)
-            print("epoch {}: lr changed to {}".format(epoch, lr))
-        return model.optimizer.learning_rate.numpy()
+    def scheduler(epoch, lr):
+        if epoch % 80 == 0 and epoch != 0:
+            lr *= 0.1
+            model.optimizer.learning_rate = lr
+            print("lr changed to {}".format(lr))
+        return lr
 
     reduce_lr = LearningRateScheduler(scheduler)
 
