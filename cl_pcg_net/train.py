@@ -24,7 +24,7 @@ if __name__ == '__main__':
     dev_data = load.load_images(params['dev'])  # Load dev set
 
     print("Building preprocessor...")
-    preproc = load.Preproc(train_data[1])  # Initialize preprocessor
+    preproc = load.Preproc(*train_data)  # Initialize preprocessor
 
     print("Training size: " + str(len(train_data[0])) + " examples.")
     print("Dev size: " + str(len(dev_data[0])) + " examples.")
