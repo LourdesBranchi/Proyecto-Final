@@ -19,7 +19,7 @@ if physical_devices:
 
 
 
-MAX_EPOCHS = 150
+MAX_EPOCHS = 110
 batch_size = 32
 
 if __name__ == '__main__':
