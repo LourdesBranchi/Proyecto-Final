@@ -93,8 +93,8 @@ if __name__ == '__main__':
         callbacks=[checkpointer, reduce_lr, history, tensorboard_callback])
 
     #save loss_acc_iter
-    history.save_result(params['save_dir'] + 'loss_acc_iter.mat')
-    print('Listo')
+    history.save_result(params['save_dir'] + 'ecg_loss_acc_iter.mat')
+    print('Listo. Se guardo en ', params['save_dir'] + 'ecg_loss_acc_iter.mat')
     # Graficar las pérdidas de entrenamiento y validación
     
     # Obtener las pérdidas del historial
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     #Extract and save deep coding features
     x_train, y_train = load.data_generator2(preproc, *train)
     x, y_t = load.data_generator2(preproc, *dev)
-    model.load_weights(save_dir + 'best.hdf5')
+    model.load_weights(save_dir + 'best_weights.keras')
     new_model = Model(inputs=model.input, outputs=model.layers[-3].output)
     feature_train = new_model.predict(x_train)
     feature_test = new_model.predict(x)
