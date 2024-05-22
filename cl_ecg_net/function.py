@@ -33,14 +33,13 @@ class LossHistory(keras.callbacks.Callback):
         loss_epoch = np.array(self.loss['epoch'])
         acc_batch = np.array(self.acc['batch'])
         acc_epoch = np.array(self.acc['epoch'])
-
         val_loss_epoch = np.array(self.val_loss['epoch'])
-
         val_acc_epoch = np.array(self.val_acc['epoch'])
-        print('loss_batch', loss_batch,'loss_epoch', loss_epoch,'acc_batch', acc_batch,'acc_epoch', acc_epoch,
-                            'val_loss_epoch', val_loss_epoch, 'val_acc_epoch', val_acc_epoch)
+    
         scio.savemat(path, {'loss_batch': loss_batch,'loss_epoch':loss_epoch,'acc_batch':acc_batch,'acc_epoch':acc_epoch,
                             'val_loss_epoch':val_loss_epoch, 'val_acc_epoch':val_acc_epoch})
+
+
 
 def specificity(y_true,y_test):
     TN = 0
