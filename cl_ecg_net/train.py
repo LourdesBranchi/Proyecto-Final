@@ -67,7 +67,7 @@ if __name__ == '__main__':
     #choose best model to save
     checkpointer = keras.callbacks.ModelCheckpoint(
         mode='max',
-        monitor='val_acc',
+        monitor='val_accuracy',
         filepath=save_dir + 'best.keras',
         save_best_only=True)
 
