@@ -12,17 +12,13 @@ class LossHistory(keras.callbacks.Callback):
 
     def on_batch_end(self, batch, logs={}):
         self.loss['batch'].append(logs.get('loss'))
-        self.acc['batch'].append(logs.get('accuracy'))
-        #self.val_loss['batch'].append(logs.get('val_loss'))
-        #self.val_acc['batch'].append(logs.get('val_acc'))
-        #print(f"Batch {batch} - Loss: {logs.get('loss')}, Accuracy: {logs.get('accuracy')}")
+        self.acc['batch'].append(logs.get('acc'))
 
-    def on_epoch_end(self, epoch, logs={}):
+    def on_epoch_end(self, batch, logs={}):
         self.loss['epoch'].append(logs.get('loss'))
-        self.acc['epoch'].append(logs.get('accuracy'))
+        self.acc['epoch'].append(logs.get('acc'))
         self.val_loss['epoch'].append(logs.get('val_loss'))
-        self.val_acc['epoch'].append(logs.get('val_accuracy'))
-        #print(f"Epoch {epoch} - Loss: {logs.get('loss')}, Accuracy: {logs.get('accuracy')}, "f"Val Loss: {logs.get('val_loss')}, Val Accuracy: {logs.get('val_accuracy')}")
+        self.val_acc['epoch'].append(logs.get('val_acc'))
 
     def loss_plot(self, loss_type):
         iters = range(len(self.loss[loss_type]))
@@ -33,12 +29,13 @@ class LossHistory(keras.callbacks.Callback):
         loss_epoch = np.array(self.loss['epoch'])
         acc_batch = np.array(self.acc['batch'])
         acc_epoch = np.array(self.acc['epoch'])
+
         val_loss_epoch = np.array(self.val_loss['epoch'])
+
         val_acc_epoch = np.array(self.val_acc['epoch'])
-    
+
         scio.savemat(path, {'loss_batch': loss_batch,'loss_epoch':loss_epoch,'acc_batch':acc_batch,'acc_epoch':acc_epoch,
                             'val_loss_epoch':val_loss_epoch, 'val_acc_epoch':val_acc_epoch})
-
 
 
 def specificity(y_true,y_test):
