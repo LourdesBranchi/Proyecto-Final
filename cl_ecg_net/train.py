@@ -98,8 +98,12 @@ if __name__ == '__main__':
     # Graficar las pérdidas de entrenamiento y validación
     
     # Obtener las pérdidas del historial
-    training_loss = history.history['loss']
-    validation_loss = history.history['val_loss']
+    training_loss = history.loss['epoch']
+    training_accuracy = history.acc['epoch']
+    validation_loss = history.val_loss['epoch']
+    validation_accuracy = history.val_acc['epoch']
+    #training_loss = history.history['loss']
+    #validation_loss = history.history['val_loss']
     
     # Crear el gráfico
     plt.plot(training_loss, label='Training Loss')
