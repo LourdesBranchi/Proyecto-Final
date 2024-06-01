@@ -1,0 +1,3 @@
+[submodule "my-ecg-pcg-apps"]
+	path = my-ecg-pcg-apps
+	url = https://github.com/maleperalta/Aplicacion
