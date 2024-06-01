@@ -1,4 +1,4 @@
-import keras
+import tensorflow.keras as keras
 import numpy as np
 import scipy.io as scio
 from sklearn.metrics import roc_curve,auc
@@ -13,8 +13,6 @@ class LossHistory(keras.callbacks.Callback):
     def on_batch_end(self, batch, logs={}):
         self.loss['batch'].append(logs.get('loss'))
         self.acc['batch'].append(logs.get('acc'))
-        #self.val_loss['batch'].append(logs.get('val_loss'))
-        #self.val_acc['batch'].append(logs.get('val_acc'))
 
     def on_epoch_end(self, batch, logs={}):
         self.loss['epoch'].append(logs.get('loss'))
@@ -38,6 +36,7 @@ class LossHistory(keras.callbacks.Callback):
 
         scio.savemat(path, {'loss_batch': loss_batch,'loss_epoch':loss_epoch,'acc_batch':acc_batch,'acc_epoch':acc_epoch,
                             'val_loss_epoch':val_loss_epoch, 'val_acc_epoch':val_acc_epoch})
+
 
 def specificity(y_true,y_test):
     TN = 0

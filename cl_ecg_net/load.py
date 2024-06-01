@@ -35,9 +35,14 @@ class Preproc:
         return self.process_x(x), self.process_y(y)
 
     def process_x(self, x):
-        x = (x - self.mean) / self.std
-        x = x[:, :, None]
-        return np.array(x)
+        processed_x = []
+        for ecg in x:
+            ecg = (ecg - self.mean) / self.std
+            padded_ecg = np.zeros((2048, 1))
+            padded_ecg[:min(len(ecg), 2048), 0] = ecg[:min(len(ecg), 2048)]
+            padded_ecg = padded_ecg[:, :, None]
+            processed_x.append(padded_ecg)
+        return np.array(processed_x)
 
     def process_y(self, y):
         y = pad([[self.class_to_int[c] for c in s] for s in y], val=1, dtype=np.int32)
@@ -64,8 +69,10 @@ def load_dataset(data_json):
     with open(os.path.join(data_json, 'ecg_data.json'), 'r') as fid:
         data = [json.loads(l) for l in fid]
     for d in tqdm.tqdm(data):
+        archivo = d['ecg'].split('Proyecto')[-1]
+        ecg_path = '/home/lougonzalez/Proyecto-Final'+archivo
         labels.append(d['label'])
-        ecgs.append(load_ecg(d['ecg']))
+        ecgs.append(load_ecg(ecg_path))
     return ecgs, labels
 
 

@@ -24,7 +24,7 @@ if __name__ == '__main__':
     dev_data = load.load_images(params['dev'])  # Load dev set
 
     print("Building preprocessor...")
-    preproc = load.Preproc(train_data[1])  # Initialize preprocessor
+    preproc = load.Preproc(*train_data)  # Initialize preprocessor
 
     print("Training size: " + str(len(train_data[0])) + " examples.")
     print("Dev size: " + str(len(dev_data[0])) + " examples.")
@@ -36,6 +36,13 @@ if __name__ == '__main__':
 
     # Create the network model
     model = network.build_network(**params)
+    
+    # Definir una devolución de llamada para guardar los mejores pesos del modelo
+    checkpointer = ModelCheckpoint(filepath=save_dir + 'best_weights.keras', 
+                                   monitor='val_loss', 
+                                   verbose=1, 
+                                   save_best_only=True,
+                                   mode='min')  # Guarda el modelo cuando la pérdida de validación es mínima
 
     # Learning rate reduce strategy
     def scheduler(epoch, lr):
