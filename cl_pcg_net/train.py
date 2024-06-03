@@ -3,7 +3,7 @@ import network
 import load
 import util
 import keras
-from keras.callbacks import LearningRateScheduler
+from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 from keras.models import Model
 import scipy.io as scio
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, f1_score
