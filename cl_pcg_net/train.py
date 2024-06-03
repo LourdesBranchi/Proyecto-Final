@@ -13,6 +13,10 @@ import numpy as np
 MAX_EPOCHS = 160
 batch_size = 32
 
+import tensorflow as tf
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+
+
 if __name__ == '__main__':
     params = util.config()
     save_dir = params['save_dir']
