@@ -13,10 +13,6 @@ import numpy as np
 MAX_EPOCHS = 160
 batch_size = 32
 
-import tensorflow as tf
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
-
-
 if __name__ == '__main__':
     params = util.config()
     save_dir = params['save_dir']
@@ -40,15 +36,15 @@ if __name__ == '__main__':
 
     # Create the network model
     model = network.build_network(**params)
-    
-    # Definir una devolución de llamada para guardar los mejores pesos del modelo
+
+    # Define a callback to save the best weights of the model
     checkpointer = ModelCheckpoint(filepath=save_dir + 'best_weights.keras', 
                                    monitor='val_loss', 
                                    verbose=1, 
                                    save_best_only=True,
-                                   mode='min')  # Guarda el modelo cuando la pérdida de validación es mínima
+                                   mode='min')  # Save the model when the validation loss is at its minimum
 
-    # Learning rate reduce strategy
+    # Learning rate reduction strategy
     def scheduler(epoch, lr):
         if epoch % 80 == 0 and epoch != 0:
             lr *= 0.1
@@ -59,20 +55,18 @@ if __name__ == '__main__':
     reduce_lr = LearningRateScheduler(scheduler)
 
     # Choose best model to save
-    checkpointer = keras.callbacks.ModelCheckpoint(
+    checkpointer = ModelCheckpoint(
         mode='max',
-        monitor='val_acc',
+        monitor='val_accuracy',
         verbose=1,
         filepath=save_dir + 'best.keras',
         save_best_only=True
-
     )
 
     # Variable to save the loss_acc_iter value
     history = LossHistory()
 
     # Data generator
-    
     train_gen = load.data_generator(batch_size, preproc, train_data[0], train_data[1])
     dev_gen = load.data_generator(batch_size, preproc, dev_data[0], dev_data[1])
     
@@ -89,11 +83,12 @@ if __name__ == '__main__':
 
     # Save loss_acc_iter
     history.save_result(params['save_dir'] + 'loss_acc_iter.mat')
-    print('listo')
+    print('Done')
+    
     # Extract and save deep coding features
-    x_train, y_train = load.data_generator2(preproc, train_data[0],train_data[1])
+    x_train, y_train = load.data_generator2(preproc, train_data[0], train_data[1])
     x_dev, y_dev = load.data_generator2(preproc, dev_data[0], dev_data[1])
-    model.load_weights(save_dir + 'best.hdf5')
+    model.load_weights(save_dir + 'best.keras')
     new_model = Model(inputs=model.input, outputs=model.layers[-3].output)
     features_train = new_model.predict(x_train)
     features_dev = new_model.predict(x_dev)
@@ -101,23 +96,23 @@ if __name__ == '__main__':
     scio.savemat(save_dir + 'image_dev.mat', {'x': features_dev, 'y': y_dev})
     print('Deep coding features saved')
 
-    # Evaluar el modelo
+    # Evaluate the model
     y_pred = model.predict(x_dev)
     y_pred_classes = np.argmax(y_pred, axis=1)
 
-    # Calcular las métricas de evaluación
+    # Calculate evaluation metrics
     conf_matrix = confusion_matrix(y_dev.argmax(1), y_pred_classes)
     sensitivity = recall_score(y_dev.argmax(1), y_pred_classes)
-    specificity = specificity(y_dev.argmax(1), y_pred_classes)  # Supongo que tienes la función `spe` definida en otro lugar
+    specificity_val = specificity(y_dev.argmax(1), y_pred_classes)  # Assuming you have the `specificity` function defined
     f1 = f1_score(y_dev.argmax(1), y_pred_classes)
     accuracy = accuracy_score(y_dev.argmax(1), y_pred_classes)
-    roc_auc = cal_auc(y_dev.argmax(1), y_pred[:, 1])  # Supongo que tienes la función `cal_auc` definida en otro lugar
+    roc_auc = cal_auc(y_dev.argmax(1), y_pred[:, 1])  # Assuming you have the `cal_auc` function defined
 
-    # Imprimir las métricas de evaluación
+    # Print evaluation metrics
     print("Confusion Matrix:")
     print(conf_matrix)
     print("Sensitivity:", sensitivity)
-    print("Specificity:", specificity)
+    print("Specificity:", specificity_val)
     print("F1-score:", f1)
     print("Accuracy:", accuracy)
     print("ROC AUC:", roc_auc)
