@@ -9,14 +9,22 @@ import os
 path_normal = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final/train/0'
 path_anormal = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final/train/1'
 
-file_normal = os.listdir(path_normal)
+# Obtener la lista de archivos en el directorio
+files_n = os.listdir(path_normal)
+# Filtrar solo los archivos con extensión .jpg
+file_normal = [file for file in files_n if file.lower().endswith('.jpg')]
+
 im_normal = []
 for i in range(len(file_normal)):
   print(os.path.join(path_normal, file_normal[i]))
   file_n = cv2.imread(os.path.join(path_normal, file_normal[i]))
   im_normal.append(cv2.cvtColor(file_n, cv2.COLOR_BGR2RGB))
 
-file_anormal = os.listdir(path_anormal)
+# Obtener la lista de archivos en el directorio
+files_a = os.listdir(path_anormal)
+# Filtrar solo los archivos con extensión .jpg
+file_anormal = [file for file in files_a if file.lower().endswith('.jpg')]
+
 im_anormal = []
 for i in range(len(file_anormal)):
   print(os.path.join(path_anormal, file_anormal[i]))
