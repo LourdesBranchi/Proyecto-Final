@@ -9,10 +9,20 @@ import scipy.io as scio
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, f1_score
 from keras_preprocessing.image import ImageDataGenerator
 import numpy as np
+import tensorflow as tf
 
 MAX_EPOCHS = 160
 batch_size = 32
 
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+    except RuntimeError as e:
+        print(e)
+        
 if __name__ == '__main__':
     params = util.config()
     save_dir = params['save_dir']
