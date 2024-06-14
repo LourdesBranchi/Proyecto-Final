@@ -6,8 +6,8 @@ from scipy import signal
 import os
 
 
-path_normal = '/content/drive/MyDrive/ECG+PCG | Proyecto Final /Espectrogramas/Normal'
-path_anormal = '/content/drive/MyDrive/ECG+PCG | Proyecto Final /Espectrogramas/Anormal'
+path_normal = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final/train/0'
+path_anormal = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final/train/1'
 
 file_normal = os.listdir(path_normal)
 im_normal = []
@@ -146,3 +146,17 @@ plt.title('Histogramas de los canales de color - Post Filtrado - Normal')
 plt.xlabel('Intensidad de los píxeles')
 plt.ylabel('Número de píxeles')
 plt.show()
+
+# Directorio para guardar las imágenes filtradas
+output_path_0 = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final/train/Filtradas/0'
+output_path_1 = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final/train/Filtradas/1'
+
+# Guardar imágenes filtradas normales
+for i, imagen in enumerate(filt2_normal):
+    filename = os.path.join(output_path_0, file_normal[i])
+    cv2.imwrite(filename, cv2.cvtColor(imagen, cv2.COLOR_RGB2BGR))
+
+# Guardar imágenes filtradas anormales
+for i, imagen in enumerate(filt2_anormal):
+    filename = os.path.join(output_path_1, file_anormal[i])
+    cv2.imwrite(filename, cv2.cvtColor(imagen, cv2.COLOR_RGB2BGR))
