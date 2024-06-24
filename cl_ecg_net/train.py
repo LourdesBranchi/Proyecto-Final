@@ -98,12 +98,12 @@ if __name__ == '__main__':
     # Graficar las pérdidas de entrenamiento y validación
     
     # Obtener las pérdidas del historial
-    training_loss = history.loss['epoch']
+    #training_loss = history.loss['epoch']
     training_accuracy = history.acc['epoch']
-    validation_loss = history.val_loss['epoch']
+    #validation_loss = history.val_loss['epoch']
     validation_accuracy = history.val_acc['epoch']
-    #training_loss = history.history['loss']
-    #validation_loss = history.history['val_loss']
+    training_loss = history.history['loss']
+    validation_loss = history.history['val_loss']
     
     # Crear el gráfico
     plt.plot(training_loss, label='Training Loss')
@@ -117,6 +117,20 @@ if __name__ == '__main__':
     
     # Mostrar el gráfico
     plt.show()
+
+    # Crear el gráfico
+    plt.plot(training_accuracy, label='Training Accuracy')
+    plt.plot(validation_accuracy, label='Validation Accuracy')
+    
+    # Agregar etiquetas y leyenda
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Training and Validation Accuracy')
+    plt.legend()
+    
+    # Mostrar el gráfico
+    plt.show()
+    
     #Extract and save deep coding features
     x_train, y_train = load.data_generator2(preproc, *train)
     x, y_t = load.data_generator2(preproc, *dev)
