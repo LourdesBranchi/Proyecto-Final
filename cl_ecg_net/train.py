@@ -17,7 +17,14 @@ physical_devices = tf.config.list_physical_devices('GPU')
 if physical_devices:
     tf.config.set_visible_devices(physical_devices[0], 'GPU')
 
-
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+    except RuntimeError as e:
+        print(e)
 
 MAX_EPOCHS = 10
 batch_size = 32
