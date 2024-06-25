@@ -122,7 +122,7 @@ if __name__ == '__main__':
 
     #evaluate model
     y_p = model.predict(x)
-    y_pred_classes = no.argmax(y_pred, axis=1)
+    y_pred_classes = np.argmax(y_pred, axis=1)
     print(confusion_matrix(y_t.argmax(1), y_p.argmax(1)))
     print('sensitivity:', recall_score(y_t.argmax(1), y_p.argmax(1)))
     print('specificity:', specificity(y_t.argmax(1), y_p.argmax(1)))
