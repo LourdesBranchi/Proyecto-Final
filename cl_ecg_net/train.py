@@ -108,9 +108,11 @@ if __name__ == '__main__':
 
     
     #Extract and save deep coding features
+    print('Guardando los deep coding features')
     x_train, y_train = load.data_generator2(preproc, *train)
     x, y_t = load.data_generator2(preproc, *dev)
     model.load_weights(save_dir + 'best_weights.keras')
+    print('Se guardo en'+ save_dir + 'best_weights.keras')
     new_model = Model(inputs=model.input, outputs=model.layers[-3].output)
     feature_train = new_model.predict(x_train)
     feature_test = new_model.predict(x)
