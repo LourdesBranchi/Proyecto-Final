@@ -54,11 +54,11 @@ if __name__ == '__main__':
     model = network.build_network(**params)
 
     # Definir una devolución de llamada para guardar los mejores pesos del modelo
-    checkpointer = ModelCheckpoint(filepath=save_dir + 'best_weights.keras', 
-                                   monitor='val_loss', 
-                                   verbose=1, 
-                                   save_best_only=True,
-                                   mode='min')  # Guarda el modelo cuando la pérdida de validación es mínima
+    #checkpointer = ModelCheckpoint(filepath=save_dir + 'best_weights.keras', 
+    #                               monitor='val_loss', 
+    #                               verbose=1, 
+    #                               save_best_only=True,
+    #                               mode='min')  # Guarda el modelo cuando la pérdida de validación es mínima
 
     #learning rate reduce strategy
     def scheduler(epoch, lr):
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     print('Guardando los deep coding features')
     x_train, y_train = load.data_generator2(preproc, *train)
     x, y_t = load.data_generator2(preproc, *dev)
-    model.load_weights(save_dir + 'best_weights.keras')
+    model.load_weights(save_dir + 'best.keras')
     print('Se guardo en'+ save_dir + 'best_weights.keras')
     new_model = Model(inputs=model.input, outputs=model.layers[-3].output)
     feature_train = new_model.predict(x_train)
