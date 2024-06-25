@@ -75,7 +75,7 @@ def specificity(y_true,y_test):
             FP = FP + 1
     return  float(TN)/(TN+FP)
 
-def cal_auc(y,y_pre):
+def cal_auc(y,y_pre, save_path):
     fpr, tpr, thresholds = roc_curve(y, y_pre, pos_label=None, sample_weight=None,drop_intermediate=True)
     auc_area = auc(fpr, tpr)
     
