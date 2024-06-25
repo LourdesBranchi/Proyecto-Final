@@ -12,6 +12,7 @@ from keras.callbacks import TensorBoard
 import tensorflow as tf
 from keras.callbacks import ModelCheckpoint
 import matplotlib.pyplot as plt
+import numpy as np
     
 physical_devices = tf.config.list_physical_devices('GPU')
 if physical_devices:
