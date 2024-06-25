@@ -70,7 +70,7 @@ def load_dataset(data_json):
         data = [json.loads(l) for l in fid]
     for d in tqdm.tqdm(data):
         archivo = d['ecg'].split('Proyecto')[-1]
-        ecg_path = '/home/lougonzalez/Proyecto-Final'+archivo
+        ecg_path = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final'+archivo
         labels.append(d['label'])
         ecgs.append(load_ecg(ecg_path))
     return ecgs, labels
