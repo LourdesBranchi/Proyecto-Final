@@ -34,6 +34,17 @@ class LossHistory(keras.callbacks.Callback):
 
         val_acc_epoch = np.array(self.val_acc['epoch'])
 
+        # Debugging: Print the values of the variables to be saved
+        print("loss_batch:", self.loss_batch)
+        print("loss_epoch:", self.loss_epoch)
+        print("acc_batch:", self.acc_batch)
+        print("acc_epoch:", self.acc_epoch)
+        print("val_loss_epoch:", self.val_loss_epoch)
+        print("val_acc_epoch:", self.val_acc_epoch)
+        # Check for None values and handle them
+        if self.loss_batch is None or self.loss_epoch is None or self.acc_batch is None or self.acc_epoch is None:
+            raise ValueError("One or more variables to be saved are None.")
+
         scio.savemat(path, {'loss_batch': loss_batch,'loss_epoch':loss_epoch,'acc_batch':acc_batch,'acc_epoch':acc_epoch,
                             'val_loss_epoch':val_loss_epoch, 'val_acc_epoch':val_acc_epoch})
 
