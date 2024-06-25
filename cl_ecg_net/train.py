@@ -27,7 +27,7 @@ if gpus:
     except RuntimeError as e:
         print(e)
 
-MAX_EPOCHS = 10
+MAX_EPOCHS = 160
 batch_size = 32
 
 if __name__ == '__main__':
