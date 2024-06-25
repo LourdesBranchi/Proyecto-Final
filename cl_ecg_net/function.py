@@ -2,6 +2,7 @@ import tensorflow.keras as keras
 import numpy as np
 import scipy.io as scio
 from sklearn.metrics import roc_curve,auc
+import matplotlib.pyplot as plt
 
 class LossHistory(keras.callbacks.Callback):
     def on_train_begin(self, logs={}):
