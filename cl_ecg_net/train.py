@@ -102,39 +102,10 @@ if __name__ == '__main__':
     #save loss_acc_iter
     history.save_result(params['save_dir'] + 'ecg_loss_acc_iter.mat')
     print('Listo. Se guardo en ', params['save_dir'] + 'ecg_loss_acc_iter.mat')
+    
     # Graficar las pérdidas de entrenamiento y validación
-    
-    # Obtener las pérdidas del historial
-    #training_loss = history.loss['epoch']
-    training_accuracy = history.acc['epoch']
-    #validation_loss = history.val_loss['epoch']
-    validation_accuracy = history.val_acc['epoch']
-    training_loss = history.history['loss']
-    validation_loss = history.history['val_loss']
-    
-    # Crear el gráfico
-    plt.plot(training_loss, label='Training Loss')
-    plt.plot(validation_loss, label='Validation Loss')
-    # Agregar etiquetas y leyenda
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.title('Training and Validation Loss')
-    plt.legend()
-    # Guardar el gráfico
-    plt.savefig(params['save_dir'] + 'training_validation_loss.png')
-    plt.close()
+    history.plot_loss_and_accuracy(params['save_dir'])
 
-    # Crear el gráfico
-    plt.plot(training_accuracy, label='Training Accuracy')
-    plt.plot(validation_accuracy, label='Validation Accuracy')
-    # Agregar etiquetas y leyenda
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.title('Training and Validation Accuracy')
-    plt.legend()
-    # Mostrar el gráfico
-    plt.savefig(params['save_dir'] + 'training_validation_accuracy.png')
-    plt.close()
     
     #Extract and save deep coding features
     x_train, y_train = load.data_generator2(preproc, *train)
@@ -155,5 +126,5 @@ if __name__ == '__main__':
     print('specificity:', specificity(y_t.argmax(1), y_p.argmax(1)))
     print('f1-score:', f1_score(y_t.argmax(1), y_p.argmax(1)))
     print('accuracy:', accuracy_score(y_t.argmax(1), y_p.argmax(1)))
-    print('roc:', cal_auc(y_t.argmax(1), y_p[:, 1]))
+    print('roc:', cal_auc(y_t.argmax(1), y_p[:, 1], save_dir))
 
