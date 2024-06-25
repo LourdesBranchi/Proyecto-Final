@@ -115,28 +115,26 @@ if __name__ == '__main__':
     # Crear el gráfico
     plt.plot(training_loss, label='Training Loss')
     plt.plot(validation_loss, label='Validation Loss')
-    
     # Agregar etiquetas y leyenda
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.title('Training and Validation Loss')
     plt.legend()
-    
-    # Mostrar el gráfico
-    plt.show()
+    # Guardar el gráfico
+    plt.savefig(params['save_dir'] + 'training_validation_loss.png')
+    plt.close()
 
     # Crear el gráfico
     plt.plot(training_accuracy, label='Training Accuracy')
     plt.plot(validation_accuracy, label='Validation Accuracy')
-    
     # Agregar etiquetas y leyenda
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.title('Training and Validation Accuracy')
     plt.legend()
-    
     # Mostrar el gráfico
-    plt.show()
+    plt.savefig(params['save_dir'] + 'training_validation_accuracy.png')
+    plt.close()
     
     #Extract and save deep coding features
     x_train, y_train = load.data_generator2(preproc, *train)
