@@ -12,13 +12,13 @@ class LossHistory(keras.callbacks.Callback):
 
     def on_batch_end(self, batch, logs={}):
         self.loss['batch'].append(logs.get('loss'))
-        self.acc['batch'].append(logs.get('acc'))
+        self.acc['batch'].append(logs.get('accuracy'))
 
     def on_epoch_end(self, batch, logs={}):
         self.loss['epoch'].append(logs.get('loss'))
-        self.acc['epoch'].append(logs.get('acc'))
+        self.acc['epoch'].append(logs.get('accuracy'))
         self.val_loss['epoch'].append(logs.get('val_loss'))
-        self.val_acc['epoch'].append(logs.get('val_acc'))
+        self.val_acc['epoch'].append(logs.get('val_accuracy'))
 
     def loss_plot(self, loss_type):
         iters = range(len(self.loss[loss_type]))
