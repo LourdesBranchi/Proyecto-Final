@@ -6,8 +6,8 @@ from scipy import signal
 import os
 
 
-path_normal = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final/val/0'
-path_anormal = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final/val/1'
+path_normal = '/home/shared/Proyecto-Final/val/0'
+path_anormal = '/home/shared/Proyecto-Final/val/1'
 
 # Obtener la lista de archivos en el directorio
 files_n = os.listdir(path_normal)
@@ -156,8 +156,8 @@ plt.ylabel('Número de píxeles')
 plt.show()
 
 # Directorio para guardar las imágenes filtradas
-output_path_0 = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final/val/Filtradas/0'
-output_path_1 = '/home/lougonzalez/pfc.venv/bin/Proyecto-Final/val/Filtradas/1'
+output_path_0 = '/home/shared/Proyecto-Final/val/Filtradas/0'
+output_path_1 = '/home/shared/Proyecto-Final/val/Filtradas/1'
 
 # Guardar imágenes filtradas normales
 for i, imagen in enumerate(filt2_normal):
