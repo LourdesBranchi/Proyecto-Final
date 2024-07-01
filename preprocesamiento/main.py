@@ -84,8 +84,8 @@ for ind in indices_to_delete2:
     del dict_signals[ind]
     del picos_R[ind]
 
-latidos = segmentaciónseñales.CortarLatidos(dict_signals, picos_R, normal, anormal, 2000)
-
+#latidos = segmentaciónseñales.CortarLatidos(dict_signals, picos_R, normal, anormal, 2000)
+latidos = segmentaciónseñales.CortarSeñal(dict_signals, picos_R, normal, anormal, 2000)
 """Espectrograma"""
 for i in range(len(latidos)):
   f, t, Sxx = funciones.generar_espectrograma(latidos[i]['pcg'], 2000)
